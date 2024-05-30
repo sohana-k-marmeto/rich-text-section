@@ -1,4 +1,4 @@
-# Sample Component
+# Rich Text 
 
 The Rich Text Section component addresses the need for flexible content presentation on Shopify storefronts. Often, merchants require the ability to customize the layout and styling of textual content to convey their brand messaging effectively. However, standard Shopify text editors may not provide sufficient control over formatting and styling. This component offers a solution by allowing users to create visually appealing text sections with customizable styles and layouts.
 
