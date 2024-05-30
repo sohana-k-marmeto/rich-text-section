@@ -1,0 +1,272 @@
+{{ 'component-rich-text.css' | asset_url | stylesheet_tag }}
+{% assign section_settings = section.settings %}
+{% assign block_settings = section.blocks[0].settings %}
+
+<section id="section-{{ section.id }}" class="richtext-section {{ section_settings.section_width }} {{ block_settings.text_alignment }}">
+  <div class="richtext-container">
+    {% if block_settings.pre_heading_text %}
+      <p class="richtext-pre-heading">{{ block_settings.pre_heading_text }}</p>
+    {% endif %}
+    <h2>{{ block_settings.heading_text }}</h2>
+    <div class="richtext-paragraph">
+      {{ block_settings.paragraph_text }}
+    </div>
+    <div class="buttons">
+      {% if block_settings.first_button_text != blank %}
+        <a href="{{ block_settings.first_button_link }}" class="btn {{ block_settings.first_button_style }} first-button">
+          {{ block_settings.first_button_text }}
+        </a>
+      {% endif %}
+      {% if block_settings.second_button_text != blank %}
+        <a href="{{ block_settings.second_button_link }}" class="btn {{ block_settings.first_button_style }} second-button">
+          {{ block_settings.second_button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% style %}
+  #section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | divided_by: 2 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 | round: 0 }}px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #section-{{ section.id }}
+  .richtext-container {
+    background: {% if section_settings.color_scheme_bg_grad != blank %}{{ section_settings.color_scheme_bg_grad }}
+  {% else %}{{ section_settings.color_scheme_bg }}
+{% endif %};
+  color: {{ section_settings.color_scheme_text }};
+  text-align: {{ block_settings.text_alignment }};
+  padding-top: {{ block_settings.padding_top_block}} px;
+  padding-bottom: {{ block_settings.padding_bottom_block}} px;
+}
+#section-{{ section.id }}
+.richtext-container h2 {
+  color: {{ section_settings.color_scheme_heading }};
+}
+
+.richtext-pre-heading {
+  color: {{ section_settings.color_scheme_pre_heading }};
+}
+.richtext-paragraph {
+  color: {{ section_settings.color_scheme_text }};
+}
+#section-{{ section.id }}
+.btn {
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 5px;
+  background-color: {{ section_settings.color_scheme_btn_bg }};
+  color: {{ section_settings.color_scheme_btn_text }};
+}
+#section-{{ section.id }}
+.secondary-button {
+  background-color: transparent;
+  border: 2px solid{{ section_settings.color_scheme_btn_bg }};
+  color: {{ section_settings.color_scheme_btn_bg }};
+}
+
+@media only screen and (min-width: 749px) {
+  #section-{{ section.id }} {
+    padding-top: {{ section_settings.padding_top}}px;
+    padding-bottom: {{ section_settings.padding_bottom}}px;
+  }
+}
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Richtext",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Section Level Settings"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding Top",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding Bottom",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "px",
+        "default": 10
+      },
+      {
+        "type": "select",
+        "id": "section_width",
+        "label": "Section Width",
+        "options": [
+          {
+            "value": "small-container",
+            "label": "Within Small Container"
+          }, {
+            "value": "container",
+            "label": "Within Container"
+          }, {
+            "value": "full-width",
+            "label": "Full Width"
+          }
+        ],
+        "default": "small-container"
+      }, {
+        "type": "header",
+        "content": "Section color scheme 1"
+      }, {
+        "type": "color",
+        "id": "color_scheme_bg",
+        "label": "Background",
+        "default": "#eeeeee"
+      }, {
+        "type": "color_background",
+        "id": "color_scheme_bg_grad",
+        "label": "Background gradient",
+        "info": "If set, replaces the background color."
+      }, {
+        "type": "color",
+        "id": "color_scheme_pre_heading",
+        "label": "Pre Heading",
+        "default": "#333333"
+      }, {
+        "type": "color",
+        "id": "color_scheme_heading",
+        "label": "Headings",
+        "default": "#333333"
+      }, {
+        "type": "color",
+        "id": "color_scheme_text",
+        "label": "Text",
+        "default": "#333333"
+      }, {
+        "type": "color",
+        "id": "color_scheme_btn_bg",
+        "label": "Button background",
+        "default": "#333333"
+      }, {
+        "type": "color",
+        "id": "color_scheme_btn_text",
+        "label": "Button text",
+        "default": "#ffffff"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "rich-text",
+        "name": "Rich Text",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Padding"
+          },
+          {
+            "type": "range",
+            "id": "padding_top_block",
+            "label": "Padding Top",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "px",
+            "default": 10
+          },
+          {
+            "type": "range",
+            "id": "padding_bottom_block",
+            "label": "Padding Bottom",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "px",
+            "default": 10
+          },
+          {
+            "type": "text",
+            "id": "pre_heading_text",
+            "label": "Pre Heading text"
+          }, {
+            "type": "text",
+            "id": "heading_text",
+            "label": "Heading text",
+            "default": "Truly love the skin you're in"
+          }, {
+            "type": "richtext",
+            "id": "paragraph_text",
+            "label": "Paragraph text",
+            "default": "<p>Our vision is to give melanin rich skin the attention it deserves. We don't want to just nurture your skin—we want you to discover the beauty that lies within.</p>"
+          }, {
+            "type": "text",
+            "id": "first_button_text",
+            "label": "First Button text",
+            "default": "Button text"
+          }, {
+            "type": "url",
+            "id": "first_button_link",
+            "label": "Button link"
+          }, {
+            "type": "select",
+            "id": "first_button_style",
+            "label": "First Button Style",
+            "default": "primary-button",
+            "options": [
+              {
+                "value": "primary-button",
+                "label": "Primary Button"
+              }, {
+                "value": "secondary-button",
+                "label": "Secondary Button"
+              }
+            ]
+          }, {
+            "type": "text",
+            "id": "second_button_text",
+            "label": "Second Button text",
+            "default": "Button text"
+          }, {
+            "type": "url",
+            "id": "second_button_link",
+            "label": "Button link"
+          }, {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "options": [
+              {
+                "value": "text-left",
+                "label": "Left"
+              }, {
+                "value": "text-center",
+                "label": "Center"
+              }, {
+                "value": "text-right",
+                "label": "Right"
+              }
+            ],
+            "default": "text-center"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Richtext"
+      }
+    ]
+  }
+{% endschema %}
