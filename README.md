@@ -24,8 +24,7 @@ The Rich Text Section component addresses the need for flexible content presenta
 
 ## Implementation Steps
 
-1. Clone this repo.
-2. Add the component-rich-text.liquid file from sections folder into your Shopify theme.
-3. Add the component-rich-text.css file from assets folder into your Shopify theme.
+1. Add the component-rich-text.liquid file from sections folder into your Shopify theme.
+2. Add the component-rich-text.css file from assets folder into your Shopify theme.
 
 
